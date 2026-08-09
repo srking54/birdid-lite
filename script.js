@@ -143,6 +143,15 @@ function renderQuestion() {
   const q = questions[currentQuestionIndex];
   if (!q) return;
 
+  // Build a shuffled copy of the choices for THIS render only.
+  // q.choices and q.answer are never mutated, so correctness checking
+  // (handleAnswer compares against q.answer) is unaffected.
+  const shuffledChoices = (q.choices || []).slice();
+  for (let i = shuffledChoices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledChoices[i], shuffledChoices[j]] = [shuffledChoices[j], shuffledChoices[i]];
+  }
+
   const { infoText, infoUrl } = splitInfoFields(q);
   q.info_text = infoText;
   q.info_url  = infoUrl;
@@ -157,7 +166,7 @@ if (nextButton) nextButton.style.display = "none";
   showQuestionImage(q);
 
   choicesEl.innerHTML = "";
-  (q.choices || []).forEach(choice => {
+  shuffledChoices.forEach(choice => {
     const btn = document.createElement("button");
     btn.className = "choice-btn";
     btn.textContent = choice;
