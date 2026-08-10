@@ -1,0 +1,453 @@
+[
+  {
+    "question": "Massive black vulture with a bare orange-pink head, broad white wing-linings that flash in flight, and a wingspan over 9 feet—North America's largest land bird, recovered from about 22 individuals by captive breeding.",
+    "choices": [
+      "California Condor",
+      "King Vulture",
+      "Turkey Vulture",
+      "Black Vulture"
+    ],
+    "answer": "California Condor",
+    "image": "images/north_america/california_condor.jpg",
+    "info": "https://ebird.org/species/calcon",
+    "scientific": "Gymnogyps californianus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/California_condor",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/1/11/California-condor-gymnogyps-californianus-078_%2821196759264%29.jpg",
+      "sha256": "c5f686ff597de56da051c884d978e31a730a7199c50bf66c1ec28ade38e50062"
+    }
+  },
+  {
+    "question": "Tall white crane with a red crown and a dark 'mustache' mark, known for loud bugling calls; one of only two native North American crane species, recovered from the brink with fewer than 20 wild individuals.",
+    "choices": [
+      "Whooping Crane",
+      "Great Egret",
+      "Sandhill Crane",
+      "American White Pelican"
+    ],
+    "answer": "Whooping Crane",
+    "image": "images/north_america/whooping_crane.jpg",
+    "info": "https://ebird.org/species/whocra",
+    "scientific": "Grus americana",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Whooping_crane",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Grus_americana_Sasata.jpg",
+      "sha256": "e43f8a49a0b847c67a279919b079bf2c07743577eb9964d9d536ffbcfed9658f"
+    }
+  },
+  {
+    "question": "Bright blue-and-gray jay found only in Florida's oak scrub; the only bird species entirely restricted to Florida, living in cooperative family groups.",
+    "choices": [
+      "Florida Scrub-Jay",
+      "Blue Jay",
+      "Steller's Jay",
+      "California Scrub-Jay"
+    ],
+    "answer": "Florida Scrub-Jay",
+    "image": "images/north_america/florida_scrub-jay.jpg",
+    "info": "https://ebird.org/species/flsjay",
+    "scientific": "Aphelocoma coerulescens",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Florida_scrub_jay",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Adult_Florida_scrub_jay.jpg",
+      "sha256": "174369081aa3b35de909f5a53d756aa0c96f830fc685cb7b1633a2862732b6a9"
+    }
+  },
+  {
+    "question": "Southeastern pinewood woodpecker that drills distinctive resin wells around its nest cavity; the only woodpecker in the world that excavates in living pine trees.",
+    "choices": [
+      "Red-bellied Woodpecker",
+      "Red-cockaded Woodpecker",
+      "Downy Woodpecker",
+      "Pileated Woodpecker"
+    ],
+    "answer": "Red-cockaded Woodpecker",
+    "image": "images/north_america/red-cockaded_woodpecker.jpg",
+    "info": "https://ebird.org/species/recwoo",
+    "scientific": "Leuconotopicus borealis",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Red-cockaded_woodpecker",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Picoides_borealis_USMC2005729133853B.jpg",
+      "sha256": "df5125412fd7fcba123df985c3efd8d543c6d3375a721ab4ffd37b45c7a62e00"
+    }
+  },
+  {
+    "question": "Tiny pale plover of sandy beaches and alkali flats with a single black neck band and orange legs; it nests in shallow scrapes on open ground and is highly vulnerable to disturbance.",
+    "choices": [
+      "Piping Plover",
+      "Killdeer",
+      "Snowy Plover",
+      "Semipalmated Plover"
+    ],
+    "answer": "Piping Plover",
+    "image": "images/north_america/piping_plover.jpg",
+    "info": "https://ebird.org/species/pipplo",
+    "scientific": "Charadrius melodus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Piping_plover",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Charadrius-melodus-004_edit.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=original",
+      "sha256": "8b83c38c1bbffc7484204d6e96315f769516c9b3de7c542654ba79f8b85811a3"
+    }
+  },
+  {
+    "question": "Large grouse of Texas coastal prairies with fine barred brown plumage, rounded tail, and (in males) bright orange neck air sacs and yellow eye combs used in booming displays; a highly endangered subspecies of Greater Prairie-Chicken.",
+    "choices": [
+      "Greater Prairie-Chicken",
+      "Attwater's Prairie-Chicken",
+      "Sharp-tailed Grouse",
+      "Lesser Prairie-Chicken"
+    ],
+    "answer": "Attwater's Prairie-Chicken",
+    "image": "images/north_america/attwaters_prairie_chicken.jpg",
+    "info": "https://ebird.org/species/attprc1",
+    "scientific": "Tympanuchus cupido attwateri",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Attwater%27s_prairie_chicken",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/d/d3/Attwater%27s_Prairie_Chicken.jpg",
+      "sha256": "928be1ef69bc9ac563807f18ebe96885ac370d03a2fef23c59428a4ebc9680e4"
+    }
+  },
+  {
+    "question": "Small songbird with blue-grey head and back, bright yellow underparts, dark flank streaking, and a broken white eye-ring; breeds almost exclusively in young jack pine forests of the Great Lakes region and winters in the Bahamas.",
+    "choices": [
+      "Cape May Warbler",
+      "Kirtland's Warbler",
+      "Palm Warbler",
+      "Magnolia Warbler"
+    ],
+    "answer": "Kirtland's Warbler",
+    "image": "images/north_america/kirtlands_warbler.jpg",
+    "info": "https://ebird.org/species/kirwar",
+    "scientific": "Setophaga kirtlandii",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Kirtland%27s_warbler",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Kirtland%27s_Warbler_in_a_Jack_Pine_-_USFWS.jpg",
+      "sha256": "94d2c3957068079340c3a9eca9dff367c031b8800f63f4d285528b611e698fe3"
+    }
+  },
+  {
+    "question": "Large sagebrush grouse endemic to Colorado and Utah, mottled grey-brown above with a black belly patch and white breast; males display with inflated yellow air sacs. Smaller and shorter-tailed than Greater Sage-Grouse.",
+    "choices": [
+      "Dusky Grouse",
+      "Gunnison Sage-Grouse",
+      "Greater Sage-Grouse",
+      "Sharp-tailed Grouse"
+    ],
+    "answer": "Gunnison Sage-Grouse",
+    "image": "images/north_america/gunnison_sage_grouse.jpg",
+    "info": "https://ebird.org/species/gusgro",
+    "scientific": "Centrocercus minimus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Gunnison_sage_grouse",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Gunnison_Sage_Grouse_%2847460635881%29.jpg",
+      "sha256": "f96b331228ed578811300bb3419cdf3df586fa0a4b95983003db4e4d0a76baac"
+    }
+  },
+  {
+    "question": "Small Pacific seabird of the auk family that nests inland in old-growth coastal forest; in breeding plumage it shows a marbled brown-and-white mottled breast and dark upperparts. Skims low over the water when flying.",
+    "choices": [
+      "Ancient Murrelet",
+      "Kittlitz's Murrelet",
+      "Marbled Murrelet",
+      "Black Guillemot"
+    ],
+    "answer": "Marbled Murrelet",
+    "image": "images/north_america/marbled_murrelet.jpg",
+    "info": "https://ebird.org/species/marmur",
+    "scientific": "Brachyramphus marmoratus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Marbled_murrelet",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Marbled_murrelet.jpg",
+      "sha256": "0040e245ddb6d0b4a10f96316dc3bab78c56bf03b8979eb8b079a49e06520528"
+    }
+  },
+  {
+    "question": "Flat-headed sparrow of Florida dry prairies with a warm ochre/rufous face and a bright yellow spot at the base of the bill (lores); heavily streaked brown back and plain pale underparts. An endangered Florida endemic subspecies of Grasshopper Sparrow.",
+    "choices": [
+      "Grasshopper Sparrow",
+      "Savannah Sparrow",
+      "Florida Grasshopper Sparrow",
+      "Bachman's Sparrow"
+    ],
+    "answer": "Florida Grasshopper Sparrow",
+    "image": "images/north_america/florida_grasshopper_sparrow.jpg",
+    "info": "https://ebird.org/species/graspa",
+    "scientific": "Ammodramus savannarum floridanus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Grasshopper_sparrow",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Adult_Florida_grasshopper_sparrow.jpg",
+      "sha256": "6ab002da7c8ec6d08d269822d8a33016eeaddc1026897749320f39da2335dc7e"
+    }
+  },
+  {
+    "question": "Small songbird of central Texas, the only bird endemic to Texas; breeds in mature Ashe juniper woodlands. Adult males show a black back with bold white wing bars, a black face mask, and vivid yellow cheeks and throat.",
+    "choices": [
+      "Golden-cheeked Warbler",
+      "Golden-winged Warbler",
+      "Black-and-white Warbler",
+      "Black-throated Green Warbler"
+    ],
+    "answer": "Golden-cheeked Warbler",
+    "image": "images/north_america/golden_cheeked_warbler.jpg",
+    "info": "https://ebird.org/species/gchwar",
+    "scientific": "Setophaga chrysoparia",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Golden-cheeked_warbler",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Golden_cheeked_warbler%2C_female.jpg",
+      "sha256": "6857ca595627174071c647fe6cad79d10086222fb1cac584e75086e6a5b6edf6"
+    }
+  },
+  {
+    "question": "Tiny vireo of scrub and oak-juniper woodlands in south-central U.S. and Mexico. Adult males have a black cap confined to the crown, white 'spectacles,' olive-grey upperparts, plain whitish underparts, and no yellow on the flanks (unlike the similar Black-headed Vireo).",
+    "choices": [
+      "Cassin's Vireo",
+      "Black-capped Vireo",
+      "Black-headed Vireo",
+      "White-eyed Vireo"
+    ],
+    "answer": "Black-capped Vireo",
+    "image": "images/north_america/black_capped_vireo.jpg",
+    "info": "https://ebird.org/species/bkcvir1",
+    "scientific": "Vireo atricapilla",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Black-capped_vireo",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/Black-capped_Vireo_%28Vireo_atricapilla%29_%288079397233%29.jpg",
+      "sha256": "6e720aad0532aecf5fed500fc09e0d0e393101c394189776df946ac89ca2e783"
+    }
+  },
+  {
+    "question": "Secretive marsh rail of tidal salt marshes along the Pacific and Gulf coasts. Shows a long, slightly decurved bill with an orange base, a grey face, reddish eyes, barred dark upperparts, and warm orange-buff underparts.",
+    "choices": [
+      "King Rail",
+      "Virginia Rail",
+      "Clapper Rail",
+      "Ridgway's Rail"
+    ],
+    "answer": "Ridgway's Rail",
+    "image": "images/north_america/ridgways_rail.jpg",
+    "info": "https://ebird.org/species/ridrai1",
+    "scientific": "Rallus obsoletus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Ridgway%27s_rail",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Ridgway%27s_Rail_%2824515510911%29.jpg",
+      "sha256": "123e74f7cafb210d2560a92de94d42a1ef81da56adaa7322657178e4649da0d9"
+    }
+  },
+  {
+    "question": "Arctic sea duck; males in breeding plumage are unmistakable with a black body, white back and scapulars, a pale greenish-white head, and black 'spectacle' patches around the eyes. Females are browner. Winters in loose packs on the Bering Sea.",
+    "choices": [
+      "King Eider",
+      "Common Eider",
+      "Spectacled Eider",
+      "Steller's Eider"
+    ],
+    "answer": "Spectacled Eider",
+    "image": "images/north_america/spectacled_eider.jpg",
+    "info": "https://ebird.org/species/speeid",
+    "scientific": "Somateria fischeri",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Spectacled_eider",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Spectacled_Eider_%28male%29.jpg",
+      "sha256": "43847d31a108bef6a07ba50796a5fd4c8231a7f60deece6da134df9b9d4b1c0e"
+    }
+  },
+  {
+    "question": "Large, bulky wading bird and the only stork native to North America. Adult shows all-white body plumage with black flight feathers and tail, a dark bald head, and a long thick decurved bill; feeds by tactile foraging in wetlands.",
+    "choices": [
+      "Sandhill Crane",
+      "American White Pelican",
+      "Roseate Spoonbill",
+      "Wood Stork"
+    ],
+    "answer": "Wood Stork",
+    "image": "images/north_america/wood_stork.jpg",
+    "info": "https://ebird.org/species/woosto",
+    "scientific": "Mycteria americana",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Wood_stork",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/c/c5/Wood_Stork.jpg",
+      "sha256": "45e8f9968761e379015d041b99d8a64f824ff80c6f1fa164d329cade80cee7bf"
+    }
+  },
+  {
+    "question": "Large grouse of North American tallgrass prairie. In spring the male performs a booming courtship display on a lek: he inflates bright orange air sacs on his neck, raises his tail, and stamps. Plumage is barred brown-and-buff with a rounded dark tail.",
+    "choices": [
+      "Greater Prairie-Chicken",
+      "Lesser Prairie-Chicken",
+      "Ring-necked Pheasant",
+      "Sharp-tailed Grouse"
+    ],
+    "answer": "Greater Prairie-Chicken",
+    "image": "images/north_america/greater_prairie_chicken.jpg",
+    "info": "https://ebird.org/species/grpchi",
+    "scientific": "Tympanuchus cupido",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Greater_prairie_chicken",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/GREATER_PRAIRIE_CHICKEN_Tympanuchus_cupido_%28Male%29_%2816082753229%29.jpg",
+      "sha256": "1abbbba7461afe8da73ebea78b8375542855e33c952c2b909f85895aefb00d4f"
+    }
+  },
+  {
+    "question": "Large North Pacific albatross, one of the world's most endangered seabirds, recovering from near-extinction. Adults show a distinctive golden-yellow head and neck, snow-white body, dark upperwings and back, and a large bright pink bill. Breeds on Japanese islands and wanders the North Pacific.",
+    "choices": [
+      "Laysan Albatross",
+      "Waved Albatross",
+      "Black-footed Albatross",
+      "Short-tailed Albatross"
+    ],
+    "answer": "Short-tailed Albatross",
+    "image": "images/north_america/short_tailed_albatross.jpg",
+    "info": "https://ebird.org/species/shtalb",
+    "scientific": "Phoebastria albatrus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Short-tailed_albatross",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Short-tailed_Albatross_%28Phoebastria_albatrus%29.jpg",
+      "sha256": "91057c314177407f7c4a74033980cc22d0bfe1266d58e0f85097102af803d22a"
+    }
+  },
+  {
+    "question": "The smallest tern in North America, breeding on Pacific coast beaches. Adult in breeding plumage shows a black cap, white forehead, pale grey back and wings, white underparts, and a yellow bill with a black tip.",
+    "choices": [
+      "Black Tern",
+      "Forster's Tern",
+      "Least Tern",
+      "Caspian Tern"
+    ],
+    "answer": "Least Tern",
+    "image": "images/north_america/california_least_tern.jpg",
+    "info": "https://ebird.org/species/leater1",
+    "scientific": "Sternula antillarum browni",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/California_least_tern",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Sternula_antillarum_browni%2C_San_Luis_Obispo%2C_California_1.jpg",
+      "sha256": "02f7e15b6c8687d37f43d4cd5ee69283860dbdc89f60760b72088e406b7785fd",
+      "subspecies_note": "Image depicts the endangered California subspecies Sternula antillarum browni (California Least Tern); eBird resolves this taxon to the species page 'Least Tern' (leater1)."
+    }
+  },
+  {
+    "question": "Marsh sparrow of Atlantic and Gulf Coast salt marshes. Breeding birds are flat-headed with a bright orange-streaked crown, a pale (grey) cheek, a thin dark line through the eye, streaked brown back, and white underparts. Largely mates in saltmarsh cordgrass.",
+    "choices": [
+      "Song Sparrow",
+      "Saltmarsh Sparrow",
+      "Nelson's Sparrow",
+      "Seaside Sparrow"
+    ],
+    "answer": "Saltmarsh Sparrow",
+    "image": "images/north_america/saltmarsh_sparrow.jpg",
+    "info": "https://ebird.org/species/sstspa",
+    "scientific": "Ammospiza caudacuta",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Saltmarsh_sparrow",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/ef/Ammospiza_caudacuta_27531185.jpg",
+      "sha256": "b52b9adb042340c8549c94ff5e40e3300538b957c71d6bc1e79c690551ab1476"
+    }
+  },
+  {
+    "question": "Unusual plover of dry short-grass prairie (not mountains). Plain pale face with NO black neck band, short dark bill, brown upperparts, white underparts, and long legs. Often found on bare ground in flocks, unlike most North American plovers that show a black neck ring.",
+    "choices": [
+      "Piping Plover",
+      "Killdeer",
+      "Snowy Plover",
+      "Mountain Plover"
+    ],
+    "answer": "Mountain Plover",
+    "image": "images/north_america/mountain_plover.jpg",
+    "info": "https://ebird.org/species/mouplo",
+    "scientific": "Charadrius montanus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Mountain_plover",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Mountain_Plover_%28Charadrius_montanus%29_%2816366958337%29.jpg",
+      "sha256": "019017e1060f35a33bb7e2cc1603f283496a10d7f0ed0faf16916833a2819312"
+    }
+  },
+  {
+    "question": "Quail of the Sonoran Desert (southern Arizona / northern Sonora). The male is unmistakable: a solid black face and neck 'mask' sharply separated from rich chestnut underparts by a thin white neckline. Females are plainer brown. Critically endangered and reintroduced.",
+    "choices": [
+      "Gambel's Quail",
+      "Northern Bobwhite",
+      "Masked Bobwhite",
+      "California Quail"
+    ],
+    "answer": "Masked Bobwhite",
+    "image": "images/north_america/masked_bobwhite.jpg",
+    "info": "https://ebird.org/species/masbob1",
+    "scientific": "Colinus virginianus ridgewayi",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Masked_bobwhite",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Masked_Bobwhite_USFWS_7.jpg",
+      "sha256": "eb9bdfabf075089e9a1fea794a45be14c08bf7106b7e0915fd13094c07b04f7b"
+    }
+  },
+  {
+    "question": "Large migratory shorebird. In breeding plumage the neck, chest, and barred flanks are deep chestnut-red, set off by a long, slightly upturned bill (orange at the base, dark at the tip) and grey head. A rare but regular migrant through the interior and coast.",
+    "choices": [
+      "Black-tailed Godwit",
+      "Bar-tailed Godwit",
+      "Marbled Godwit",
+      "Hudsonian Godwit"
+    ],
+    "answer": "Hudsonian Godwit",
+    "image": "images/north_america/hudsonian_godwit.jpg",
+    "info": "https://ebird.org/species/hudgod",
+    "scientific": "Limosa haemastica",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Hudsonian_godwit",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Hudsonian_Godwit_-_Churchill_-_Canada_01_%2815657156459%29.jpg",
+      "sha256": "b2809dbaf16b0a4f400482d1cff60cef31458f0677139af895faa571deed7d3c"
+    }
+  },
+  {
+    "question": "Southeast US grassland/savanna sparrow. Plain and unstreaked below with a plain grey-brown face, an olive-grey cap, a rusty stripe behind the eye, and a small conical bill. Skulking; more often heard than seen. A species of conservation concern.",
+    "choices": [
+      "Song Sparrow",
+      "Chipping Sparrow",
+      "Bachman's Sparrow",
+      "Field Sparrow"
+    ],
+    "answer": "Bachman's Sparrow",
+    "image": "images/north_america/bachmans_sparrow.jpg",
+    "info": "https://ebird.org/species/bacspa",
+    "scientific": "Peucaea aestivalis",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Bachman%27s_sparrow",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/7/76/Bachmanssparrow.jpg",
+      "sha256": "eee45890a3fffc60f6880f266e6a09d00becc6fe0a27bfa00cb35cb590a7c8b6"
+    }
+  },
+  {
+    "question": "Tiny pale plover of open beaches, salt flats, and alkali lakes (the North American form is the Western Snowy Plover). Shows a plain pale face and an INCOMPLETE, broken dark neck band (not a full collar), with a short dark bill and dark legs. Often nesting in shallow scrapes among shell fragments.",
+    "choices": [
+      "Killdeer",
+      "Snowy Plover",
+      "Semipalmated Plover",
+      "Piping Plover"
+    ],
+    "answer": "Snowy Plover",
+    "image": "images/north_america/western_snowy_plover.jpg",
+    "info": "https://ebird.org/species/snoplo5",
+    "scientific": "Charadrius nivosus",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Snowy_plover",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Banded_Snowy_Plover_-_Charadrius_nivosus_-.jpg",
+      "sha256": "8705cd03a40c2e274b0c870719216df8292b38f8a16738c662d771b33694eff1"
+    }
+  },
+  {
+    "question": "North America's smallest rail and one of its most secretive. Overall dark slate-gray with fine white speckling above, a rufous patch on the nape, bright red eyes, and a short dark decurved bill. Inhabits dense freshwater and salt marshes; far more often heard than seen.",
+    "choices": [
+      "Virginia Rail",
+      "Sora",
+      "Clapper Rail",
+      "Black Rail"
+    ],
+    "answer": "Black Rail",
+    "image": "images/north_america/black_rail.jpg",
+    "info": "https://ebird.org/species/blkrai",
+    "scientific": "Laterallus jamaicensis",
+    "_provenance": {
+      "source_page": "https://en.wikipedia.org/wiki/Black_rail",
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Laterallus_jamaicensis_33259511.jpg",
+      "sha256": "6b10e4c863e827fa0f64be56919f5d9af2b2f774156c05a2bd4b10e341d0c38a"
+    }
+  }
+]

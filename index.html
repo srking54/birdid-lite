@@ -130,7 +130,7 @@ My commitment is that once verified nonprofit bird conservation organizations be
   </p>
 
   <p>
-    This week's quiz: Endangered Birds of India.
+    This week's quiz: Endangered Birds of North America (25 questions).
  </p>
  <p>
     Next update coming in about two weeks with a new quiz and new content.
@@ -166,11 +166,11 @@ My commitment is that once verified nonprofit bird conservation organizations be
         el.textContent = cfg.quiz_title;
       } else {
         const derived = prettyFromFilename(cfg.question_file || 'questions.json');
-        el.textContent = derived ? `Endangered Birds of India ${derived}` : 'Endangered Bird Species of India';
+        el.textContent = derived ? `Endangered Birds of North America ${derived}` : 'Endangered Birds of North America';
       }
     })
     .catch(() => {
-      el.textContent = 'Endangered Bird Species of India';
+      el.textContent = 'Endangered Birds of North America';
     });
 })();
 </script>

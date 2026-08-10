@@ -1,6 +1,9 @@
 {
-  "active_region": "Africa",
-  "question_file": "questions.json",
+  "active_region": "North America",
   "start_date": "2025-07-01",
-  "end_date": "2025-07-31"
+  "end_date": "2025-07-31",
+  "quiz_title": "Endangered Birds of North America",
+  "region": "North America",
+  "question_count": 25,
+  "questionsFile": "questions_na.json"
 }
