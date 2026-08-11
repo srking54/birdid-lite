@@ -56,7 +56,7 @@
     <li><a href="/resources.html">Resources</a></li>
     <li><a href="/credits.html">Credits</a></li>
     <li><a href="/privacy.html">Privacy</a></li> <!-- NEW -->
-    <li><a href="/ledger.html">Donations Ledger</a><li>
+    <li><a href="/ledger.html">Donations Ledger</a></li>
     <li><a href="/faq.html">FAQ</a></li>
     <li><a href="/contact.html" aria-current="page">Contact</a></li>
   </ul>
@@ -239,23 +239,6 @@ My commitment is that once verified nonprofit bird conservation organizations be
 
 <!-- 📜 Scripts -->
 <script type="module" src="script.js"></script>
-<script>
-  const menuToggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('menu');
-
-  // Toggle menu visibility when hamburger is clicked
-  menuToggle.addEventListener('click', () => {
-    menu.classList.toggle('show');
-  });
-
-  // Close menu when clicking outside
-  document.addEventListener('click', (event) => {
-    if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
-      menu.classList.remove('show');
-    }
-  });
-</script>
-  
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
 (function () {
