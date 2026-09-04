@@ -29,6 +29,58 @@ let currentQuestionIndex = 0;
 let score = 0;
 let isTimedMode = false;
 let timerInterval = null;
+function getCompletedQuizStateKey() {
+  return "birdid.completedQuiz:" + (appConfig.questionsFile || "questions.json");
+}
+
+function saveCompletedQuizState(view) {
+  try {
+    sessionStorage.setItem(getCompletedQuizStateKey(), JSON.stringify({
+      userAnswers: userAnswers,
+      score: score,
+      view: view
+    }));
+  } catch (e) {
+    console.warn("Could not save completed quiz state:", e);
+  }
+}
+
+function restoreCompletedQuizState() {
+  try {
+    const raw = sessionStorage.getItem(getCompletedQuizStateKey());
+    if (!raw) return false;
+
+    const state = JSON.parse(raw);
+    if (!state || !Array.isArray(state.userAnswers)) return false;
+
+    userAnswers = state.userAnswers;
+    score = typeof state.score === "number" ? state.score : 0;
+    currentQuestionIndex = questions.length;
+
+    showResults(false);
+
+    if (state.view === "review") {
+      const resultsSummaryEl = document.getElementById("results-summary");
+      if (resultsSummaryEl) resultsSummaryEl.classList.add("hidden");
+      if (answerReviewEl) answerReviewEl.classList.remove("hidden");
+      renderAnswerReview();
+      document.body.classList.add("results-mode");
+    }
+
+    return true;
+  } catch (e) {
+    console.warn("Could not restore completed quiz state:", e);
+    return false;
+  }
+}
+
+function restartQuiz() {
+  try {
+    sessionStorage.removeItem(getCompletedQuizStateKey());
+  } catch (e) {}
+
+  window.location.href = "quiz.html?v=" + Date.now();
+}
 if (nextButton) nextButton.addEventListener("click", nextQuestion);
 
 // ---------- Helpers ----------
@@ -247,7 +299,7 @@ function nextQuestion() {
 }
 window.nextQuestion = nextQuestion; // for inline onclick in HTML
 
-function showResults() {
+function showResults(saveState = true) {
   if (quizSection)  quizSection.style.display = "none";
   if (quizHeader)   quizHeader.style.display  = "none";
 
@@ -295,6 +347,7 @@ function showResults() {
 `;
 
     resultsSummaryEl.appendChild(donate);
+    if (saveState) saveCompletedQuizState("results");
   }
 
 function getSelectedAmount() {
@@ -454,7 +507,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (answerReviewEl) answerReviewEl.classList.remove("hidden");
         renderAnswerReview();
         document.body.classList.add("results-mode");
-
+        saveCompletedQuizState("review");
       });
     }
 
@@ -463,19 +516,27 @@ document.addEventListener("DOMContentLoaded", async () => {
     questions = sanitizeQuizData(raw);
 
     if (!questions.length) {
-      if (questionEl) questionEl.textContent = "No questions available.";
-      return;
+    if (questionEl) questionEl.textContent = "No questions available.";
+    return;
     }
 
     // Show quiz area if it’s hidden by default
     if (quizSection) quizSection.style.display = "block";
 
+    const navEntry = performance.getEntriesByType("navigation")[0];
+    const isHistoryReturn = navEntry && navEntry.type === "back_forward";
+
+    if (isHistoryReturn && restoreCompletedQuizState()) {
+    return;
+    }
+
     currentQuestionIndex = 0;
     score = 0;
     userAnswers = [];
     renderQuestion();
-  } catch (err) {
+
+    } catch (err) {
     console.error(err);
     if (questionEl) questionEl.textContent = "⚠️ Failed to load quiz questions.";
   }
-});
+ });
