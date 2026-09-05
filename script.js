@@ -46,11 +46,24 @@ function saveCompletedQuizState(view) {
 }
 
 function restoreCompletedQuizState() {
-  try {
-    const raw = localStorage.getItem(getCompletedQuizStateKey());
-    if (!raw) return false;
+try {
+const key = getCompletedQuizStateKey();
+const raw = localStorage.getItem(key);
 
-    const state = JSON.parse(raw);
+if (!raw) {
+  alert(`RESTORE
+key=${key}
+state=MISSING`);
+  return false;
+}
+
+const state = JSON.parse(raw);
+
+    alert(`RESTORE
+    key=${key}
+    answers=${Array.isArray(state.userAnswers) ? state.userAnswers.length : "invalid"}
+    view=${state.view}`);
+
     if (!state || !Array.isArray(state.userAnswers)) return false;
 
     userAnswers = state.userAnswers;
