@@ -422,7 +422,7 @@ function renderAnswerReview() {
   userAnswers.forEach((e, i) => {
     const hasLink = !!(e.infoUrl || e.infoText);
     const infoHtml = e.infoUrl
-      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="sessionStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
+      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="localStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
       : (e.infoText ? `<em>${e.infoText}</em>` : "");
 
     const imgHtml = e.image
@@ -523,10 +523,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Show quiz area if it’s hidden by default
     if (quizSection) quizSection.style.display = "block";
 
-    const returnToReview = sessionStorage.getItem("birdid.returnToReview") === "1";
+    const returnToReview = localStorage.getItem("birdid.returnToReview") === "1";
 
     if (returnToReview) {
-      sessionStorage.removeItem("birdid.returnToReview");
+      localStorage.removeItem("birdid.returnToReview");
       if (restoreCompletedQuizState()) {
         return;
       }
