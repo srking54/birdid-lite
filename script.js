@@ -540,3 +540,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (questionEl) questionEl.textContent = "⚠️ Failed to load quiz questions.";
   }
  });
+ window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    restoreCompletedQuizState();
+  }
+});
