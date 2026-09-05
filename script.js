@@ -81,7 +81,6 @@ function restartQuiz() {
 
   window.location.href = "quiz.html?v=" + Date.now();
 }
-if (nextButton) nextButton.addEventListener("click", nextQuestion);
 
 // ---------- Helpers ----------
 function normalizeMaybeUrl(s) {
