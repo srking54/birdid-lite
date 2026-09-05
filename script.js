@@ -415,13 +415,22 @@ document.addEventListener('click', (e) => {
 });
 
 function openBirdInfo(event, url) {
-  if (window.Pi && typeof window.Pi.openUrlInSystemBrowser === "function") {
-    event.preventDefault();
-    window.Pi.openUrlInSystemBrowser(url);
-    return false;
+  const isPiBrowser = /PiBrowser/i.test(navigator.userAgent);
+
+  if (!isPiBrowser ||
+      !window.Pi ||
+      typeof window.Pi.openUrlInSystemBrowser !== "function") {
+    return true;
   }
 
-  return true;
+  event.preventDefault();
+
+  window.Pi.openUrlInSystemBrowser(url).catch((err) => {
+    console.warn("Pi system browser open failed:", err);
+    window.location.href = url;
+  });
+
+  return false;
 }
 function renderAnswerReview() {
   if (!reviewContentEl) return;
