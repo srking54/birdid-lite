@@ -425,10 +425,17 @@ function openBirdInfo(event, url) {
 
   event.preventDefault();
 
-  window.Pi.openUrlInSystemBrowser(url).catch((err) => {
-    console.warn("Pi system browser open failed:", err);
+  try {
+    const result = window.Pi.openUrlInSystemBrowser(url);
+
+    Promise.resolve(result).catch((err) => {
+      alert("Pi Browser error: " + (err?.message || err));
+      window.location.href = url;
+    });
+  } catch (err) {
+    alert("Pi Browser error: " + (err?.message || err));
     window.location.href = url;
-  });
+  }
 
   return false;
 }
