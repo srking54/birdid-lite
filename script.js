@@ -414,7 +414,15 @@ document.addEventListener('click', (e) => {
   }
 });
 
+function openBirdInfo(event, url) {
+  if (window.Pi && typeof window.Pi.openUrlInSystemBrowser === "function") {
+    event.preventDefault();
+    window.Pi.openUrlInSystemBrowser(url);
+    return false;
+  }
 
+  return true;
+}
 function renderAnswerReview() {
   if (!reviewContentEl) return;
   reviewContentEl.innerHTML = "";
@@ -422,7 +430,7 @@ function renderAnswerReview() {
   userAnswers.forEach((e, i) => {
     const hasLink = !!(e.infoUrl || e.infoText);
     const infoHtml = e.infoUrl
-      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="sessionStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
+      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="return openBirdInfo(event, this.href)">🔗 More Information</a>`
       : (e.infoText ? `<em>${e.infoText}</em>` : "");
 
     const imgHtml = e.image
