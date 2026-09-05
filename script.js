@@ -35,7 +35,7 @@ function getCompletedQuizStateKey() {
 
 function saveCompletedQuizState(view) {
   try {
-    sessionStorage.setItem(getCompletedQuizStateKey(), JSON.stringify({
+    localStorage.setItem(getCompletedQuizStateKey(), JSON.stringify({
       userAnswers: userAnswers,
       score: score,
       view: view
@@ -47,7 +47,7 @@ function saveCompletedQuizState(view) {
 
 function restoreCompletedQuizState() {
   try {
-    const raw = sessionStorage.getItem(getCompletedQuizStateKey());
+    const raw = localStorage.getItem(getCompletedQuizStateKey());
     if (!raw) return false;
 
     const state = JSON.parse(raw);
@@ -76,7 +76,7 @@ function restoreCompletedQuizState() {
 
 function restartQuiz() {
   try {
-    sessionStorage.removeItem(getCompletedQuizStateKey());
+    localStorage.removeItem(getCompletedQuizStateKey());
   } catch (e) {}
 
   window.location.href = "quiz.html?v=" + Date.now();
