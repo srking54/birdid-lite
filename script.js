@@ -434,7 +434,7 @@ function renderAnswerReview() {
   userAnswers.forEach((e, i) => {
     const hasLink = !!(e.infoUrl || e.infoText);
     const infoHtml = e.infoUrl
-      ? `<a href="${e.infoUrl}" rel="noopener" onclick="localStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
+      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="localStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
       : (e.infoText ? `<em>${e.infoText}</em>` : "");
 
     const imgHtml = e.image
