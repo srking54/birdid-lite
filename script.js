@@ -45,7 +45,7 @@ function saveCompletedQuizState(view) {
   }
 }
 
-function restoreCompletedQuizState() {
+function restoreCompletedQuizState(forceReview = false) {
   try {
     const raw = localStorage.getItem(getCompletedQuizStateKey());
     if (!raw) return false;
@@ -59,7 +59,7 @@ function restoreCompletedQuizState() {
 
     showResults(false);
 
-    if (state.view === "review") {
+    if (forceReview || state.view === "review") {
       const resultsSummaryEl = document.getElementById("results-summary");
       if (resultsSummaryEl) resultsSummaryEl.classList.add("hidden");
       if (answerReviewEl) answerReviewEl.classList.remove("hidden");
@@ -577,5 +577,5 @@ if (!document.getElementById("quiz-section") &&
   }
 
   localStorage.removeItem("birdid.returnToReview");
-  restoreCompletedQuizState();
+  restoreCompletedQuizState(true);
 });
