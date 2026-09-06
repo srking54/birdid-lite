@@ -538,7 +538,7 @@ if (!document.getElementById("quiz-section") &&
 
     if (returnToReview) {
       localStorage.removeItem("birdid.returnToReview");
-      if (restoreCompletedQuizState()) {
+      if (restoreCompletedQuizState(true)) {
         return;
       }
     }
