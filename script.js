@@ -555,7 +555,8 @@ if (!document.getElementById("quiz-section") &&
     if (questionEl) questionEl.textContent = "⚠️ Failed to load quiz questions.";
   }
  });
- window.addEventListener("pageshow", (event) => {
+
+ window.addEventListener("pageshow", () => {
   const hasQuizUI =
     document.getElementById("quiz-section") ||
     document.getElementById("quiz-wrapper");
@@ -563,12 +564,13 @@ if (!document.getElementById("quiz-section") &&
   const returnToReview =
     localStorage.getItem("birdid.returnToReview") === "1";
 
-  if (event.persisted && !hasQuizUI && returnToReview) {
+  if (!returnToReview) return;
+
+  if (!hasQuizUI) {
     window.location.href = "/quiz.html";
     return;
   }
 
-  if (event.persisted && hasQuizUI) {
-    restoreCompletedQuizState();
-  }
+  localStorage.removeItem("birdid.returnToReview");
+  restoreCompletedQuizState();
 });
