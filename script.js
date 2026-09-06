@@ -510,13 +510,18 @@ if (!document.getElementById("quiz-section") &&
     // Events
     if (nextButton) nextButton.addEventListener("click", nextQuestion);
     if (viewAnswersBtn) {
-      viewAnswersBtn.addEventListener("click", () => {
-        if (resultsSummary) resultsSummary.classList.add("hidden");
-        if (answerReviewEl) answerReviewEl.classList.remove("hidden");
-        renderAnswerReview();
-        document.body.classList.add("results-mode");
-        saveCompletedQuizState("review");
-      });
+     viewAnswersBtn.addEventListener("click", () => {
+       if (!userAnswers.length) {
+         restoreCompletedQuizState();
+       }
+
+       if (resultsSummary) resultsSummary.classList.add("hidden");
+       if (answerReviewEl) answerReviewEl.classList.remove("hidden");
+
+       renderAnswerReview();
+       document.body.classList.add("results-mode");
+       saveCompletedQuizState("review");
+     });
     }
 
     // Load questions
