@@ -481,6 +481,15 @@ function updateProgressBar() {
 // ---------- Boot ----------
 document.addEventListener("DOMContentLoaded", async () => {
   try {
+
+    const returnToReview = localStorage.getItem("birdid.returnToReview") === "1";
+
+if (!document.getElementById("quiz-section") &&
+    !document.getElementById("quiz-wrapper") &&
+    returnToReview) {
+  window.location.href = "/quiz.html";
+  return;
+}
     // Only initialize on pages that actually have the quiz UI
     const hasQuizImg = birdImage;
     const hasQuizUI =
@@ -521,8 +530,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Show quiz area if it’s hidden by default
     if (quizSection) quizSection.style.display = "block";
-
-    const returnToReview = localStorage.getItem("birdid.returnToReview") === "1";
 
     if (returnToReview) {
       localStorage.removeItem("birdid.returnToReview");
