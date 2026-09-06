@@ -556,7 +556,19 @@ if (!document.getElementById("quiz-section") &&
   }
  });
  window.addEventListener("pageshow", (event) => {
-  if (event.persisted) {
+  const hasQuizUI =
+    document.getElementById("quiz-section") ||
+    document.getElementById("quiz-wrapper");
+
+  const returnToReview =
+    localStorage.getItem("birdid.returnToReview") === "1";
+
+  if (event.persisted && !hasQuizUI && returnToReview) {
+    window.location.href = "/quiz.html";
+    return;
+  }
+
+  if (event.persisted && hasQuizUI) {
     restoreCompletedQuizState();
   }
 });
