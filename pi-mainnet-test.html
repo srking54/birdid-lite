@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BirdID Mainnet Payment Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="container">
+    <section class="card" style="max-width:720px;margin:2rem auto;text-align:center;">
+      <h1>BirdID Mainnet Payment Test</h1>
+      <p>This temporary page is only for completing the BirdID Mainnet app checklist.</p>
+      <p><strong>Test page version:</strong> 2026-07-26-v4</p>
+      <p>No real BirdID Lite payment is required for the public launch.</p>
+
+      <button id="login-pi" class="btn">Sign in with Pi</button>
+      <button id="test-payment" class="btn" disabled>Process Mainnet Transaction</button>
+
+      <p id="status" style="margin-top:1rem;font-weight:600;"></p>
+      <pre id="log" style="text-align:left;white-space:pre-wrap;background:rgba(255,255,255,.55);padding:12px;border-radius:8px;max-height:260px;overflow:auto;"></pre>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = "";
+
+    const statusEl = document.getElementById("status");
+    const logEl = document.getElementById("log");
+    const loginBtn = document.getElementById("login-pi");
+    const payBtn = document.getElementById("test-payment");
+
+    function setStatus(msg) {
+      statusEl.textContent = msg;
+      log(msg);
+    }
+
+    function log(msg, obj) {
+      const line = "[" + new Date().toLocaleTimeString() + "] " + msg;
+      logEl.textContent += line + "\n";
+      if (obj) {
+        logEl.textContent += JSON.stringify(obj, null, 2) + "\n";
+      }
+      console.log(msg, obj || "");
+    }
+
+    async function postJson(path, payload) {
+      log("POST " + API_BASE + path, payload);
+
+      const res = await fetch(API_BASE + path, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        data = { raw: text };
+      }
+
+      log("Response " + res.status, data);
+
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Server returned " + res.status);
+      }
+
+      return data;
+    }
+
+    if (!window.Pi) {
+      setStatus("Pi SDK not found. Open this page inside Pi Browser.");
+    } else {
+      Pi.init({ version: "2.0" });
+      setStatus("Pi SDK loaded. Please sign in.");
+    }
+
+    loginBtn.addEventListener("click", function () {
+      if (!window.Pi) {
+        setStatus("Open this page inside Pi Browser.");
+        return;
+      }
+
+      setStatus("Signing in with Pi...");
+
+      Pi.authenticate(["payments"], function (payment) {
+        log("Incomplete payment found", payment);
+        setStatus("Incomplete payment found. Try cancelling old pending payments in Pi Browser, then sign in again.");
+      }).then(function (auth) {
+        log("Authenticated", auth);
+        setStatus("Signed in. You can now process the test transaction.");
+        payBtn.disabled = false;
+      }).catch(function (err) {
+        log("Pi sign-in failed", err);
+        setStatus("Pi sign-in failed or was cancelled.");
+      });
+    });
+
+    payBtn.addEventListener("click", function () {
+      if (!window.Pi) {
+        setStatus("Open this page inside Pi Browser.");
+        return;
+      }
+
+      setStatus("Creating Pi test payment...");
+
+      Pi.createPayment({
+        amount: 0.01,
+        memo: "BirdID Mainnet checklist transaction",
+        metadata: {
+          app: "BirdID",
+          purpose: "mainnet-checklist",
+          version: "2026-07-26-v4"
+        }
+      }, {
+        onReadyForServerApproval: function(paymentId) {
+          setStatus("Approval callback fired. Payment ID: " + paymentId);
+
+          postJson("/api/pi/approve", { paymentId: paymentId })
+            .then(function () {
+              setStatus("Payment approved by server. Complete it in Pi Browser.");
+            })
+            .catch(function (err) {
+              log("Server approval failed", err);
+              setStatus("Server approval failed: " + err.message);
+            });
+        },
+
+        onReadyForServerCompletion: function(paymentId, txid) {
+          setStatus("Completion callback fired. TxID: " + txid);
+
+          postJson("/api/pi/complete", {
+            paymentId: paymentId,
+            txid: txid
+          }).then(function () {
+            setStatus("Payment completed successfully. Check the Pi Developer checklist.");
+          }).catch(function (err) {
+            log("Server completion failed", err);
+            setStatus("Server completion failed: " + err.message);
+          });
+        },
+
+        onCancel: function(paymentId) {
+          log("Payment cancelled", paymentId);
+          setStatus("Payment cancelled.");
+        },
+
+        onError: function(error, payment) {
+          log("Payment error", { error: error, payment: payment });
+          setStatus("Payment error. See log above.");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
