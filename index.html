@@ -136,6 +136,11 @@ My commitment is that once verified nonprofit bird conservation organizations be
     Next update coming in about two weeks with a new quiz and new content.
 </p>
 
+  <div id="pi-signin-area">
+    <button id="pi-signin" class="btn" type="button">Sign in with Pi</button>
+    <p id="pi-signin-status">Pi Browser users can sign in before taking the quiz.</p>
+  </div>
+
   <ul class="quiz-links">
     <li>
       <a href="/quiz.html?mode=leisure">Take the Free Quiz</a>
@@ -259,35 +264,57 @@ My commitment is that once verified nonprofit bird conservation organizations be
 <script>
 (function () {
   const isPi = typeof window !== 'undefined' && (/PiBrowser/i.test(navigator.userAgent) || !!window.Pi);
-  const donateBtn = document.getElementById('donate-pi');
-  const note = document.getElementById('donate-note');
-
-  if (!donateBtn) return;
-
+  const piSigninBtn = document.getElementById('pi-signin');
+  const piSigninStatus = document.getElementById('pi-signin-status');
+  if (!piSigninBtn || !piSigninStatus) return;
   if (!isPi) {
-    donateBtn.style.display = 'none';
-    if (note) note.innerHTML = 'To donate Pi, open in <strong>Pi Browser</strong>: <code>birdid.pi</code>.';
+    piSigninBtn.style.display = 'none';
+    piSigninStatus.textContent =
+      'Open BirdID in Pi Browser to sign in with Pi.';
     return;
   }
 
-  // Initialize SDK (no-op if already initialized)
-  try { window.Pi && window.Pi.init({ version: "2.0" }); } catch (e) {}
+  try {
+    window.Pi.init({ version: "2.0" });
+  } catch (error) {
+    piSigninStatus.textContent = 'Pi SDK could not be initialized.';
+    return;
+  }
 
-  donateBtn.style.display = 'inline-block';
-  donateBtn.onclick = async () => {
+  piSigninBtn.onclick = async () => {
+    piSigninBtn.disabled = true;
+    piSigninStatus.textContent = 'Signing in with Pi...';
+
     try {
-      if (!window.Pi) throw new Error("Pi SDK not available");
-      // Minimal mock for hackathon demo — replace with real server hooks later
-      const paymentData = { amount: 1, memo: "BirdID donation", metadata: { src: "demo" } };
-      const callbacks = {
-        onReadyForServerApproval: (paymentId) => { console.log("Approve on server:", paymentId); },
-        onReadyForServerCompletion: (paymentId, txid) => { console.log("Complete on server:", paymentId, txid); },
-        onCancel: () => alert("Donation canceled"),
-        onError: (e) => alert("Donation error: " + e?.message)
-      };
-      await window.Pi.createPayment(paymentData, callbacks);
-    } catch (e) {
-      alert("Pi payment not available in this environment.");
+      const auth = await window.Pi.authenticate(
+        ['username'],
+        function (payment) {
+          console.warn('Incomplete Pi payment found:', payment);
+        }
+      );
+
+      const response = await fetch('/api/pi/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessToken: auth.accessToken })
+      });
+
+      if (!response.ok) {
+        throw new Error('Pi verification failed');
+      }
+
+      const verifiedUser = await response.json();
+      const username =
+        verifiedUser.username || verifiedUser.user?.username || 'Pioneer';
+
+      piSigninStatus.textContent =
+        'Signed in with Pi as ' + username + '.';
+      piSigninBtn.textContent = 'Signed in with Pi';
+    } catch (error) {
+      console.error('Pi sign-in failed:', error);
+      piSigninStatus.textContent =
+        'Pi sign-in was not completed. Please try again.';
+      piSigninBtn.disabled = false;
     }
   };
 })();
