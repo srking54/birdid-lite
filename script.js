@@ -15,6 +15,19 @@ const viewAnswersBtn  = document.getElementById("view-answers");
 const answerReviewEl  = document.getElementById("answer-review");
 const reviewContentEl = document.getElementById("review-content");
 const feedbackEl   = document.getElementById("feedback");
+function openExternalUrl(url) {
+  if (!url) return;
+
+  if (window.Pi && typeof Pi.openUrlInSystemBrowser === "function") {
+    Pi.openUrlInSystemBrowser(url).catch((error) => {
+      console.warn("Could not open system browser:", error);
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+  } else {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+}
+
 
 // Optional timer/progress (will safely no-op if absent)
 const quizHeader   = document.getElementById("quiz-header");
@@ -259,7 +272,7 @@ function handleAnswer(selected, q) {
     ? `<p>✅ Correct!</p>`
     : `<p>❌ Incorrect. The correct answer was <strong>${q.answer}</strong>.</p>`;
 
-  if (infoUrl)   feedback += `<p><a href="${infoUrl}" target="_blank" rel="noopener noreferrer">🔗 More Information</a></p>`;
+  if (infoUrl)   feedback += `<p><a href="${infoUrl}" onclick="event.preventDefault(); openExternalUrl(this.href);">🔗 More Information</a></p>`;
   if (infoText)  feedback += `<p>${infoText}</p>`;
 
   if (feedbackEl) {
@@ -421,7 +434,7 @@ function renderAnswerReview() {
   userAnswers.forEach((e, i) => {
     const hasLink = !!(e.infoUrl || e.infoText);
     const infoHtml = e.infoUrl
-      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="localStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
+      ? `<a href="${e.infoUrl}" onclick="event.preventDefault(); openExternalUrl(this.href);">🔗 More Information</a>`
       : (e.infoText ? `<em>${e.infoText}</em>` : "");
 
     const imgHtml = e.image
