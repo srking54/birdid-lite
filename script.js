@@ -436,85 +436,8 @@ function showResults(saveState = true) {
                         "Keep exploring — birding is a journey 🐣";
   }
 
-  // --- Donate block (add once) ---
-  const donate = document.getElementById("donate-controls") || document.createElement("div");
-  donate.id = "donate-controls";
-  donate.innerHTML = `
-  <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap">
-    <label for="pi-amount" class="muted">Amount:</label>
-    <select id="pi-amount">
-      <option value="0.1">0.1 π</option>
-      <option value="0.5">0.5 π</option>
-      <option value="1">1 π</option>
-      <option value="custom">Custom…</option>
-    </select>
-
-    <input id="pi-amount-custom" type="number" min="0.01" step="0.01"
-           placeholder="e.g., 2.5" style="display:none; width:8em">
-
-    <button id="tip-pi" class="btn">Donate</button>
-    <span id="tip-status" class="muted" style="margin-left:8px;"></span>
-  </div>
-
-  <p class="muted" style="margin:6px 0 0;">
-    Pi donations work inside the <strong>Pi Browser</strong>.
-    Otherwise, see our <a href="/ledger.html">Public Donations Ledger</a>.
-  </p>
-`;
-
-    resultsSummaryEl.appendChild(donate);
-    if (saveState) saveCompletedQuizState("results");
-  }
-
-function getSelectedAmount() {
-  const sel = document.getElementById('pi-amount');
-  const custom = document.getElementById('pi-amount-custom');
-
-  let val = (sel && sel.value === 'custom') ? (custom?.value || '') : (sel?.value || '');
-  const amt = parseFloat(val);
-
-  if (!isFinite(amt) || amt <= 0) {
-    throw new Error('Please enter a valid amount.');
-  }
-  // keep at most 4 decimals
-  return Math.round(amt * 10000) / 10000;
+  if (saveState) saveCompletedQuizState("results");
 }
-
-// Toggle the custom amount box when dropdown changes
-document.addEventListener('change', (e) => {
-  if (e.target && e.target.id === 'pi-amount') {
-    const showCustom = e.target.value === 'custom';
-    const custom = document.getElementById('pi-amount-custom');
-    if (custom) {
-      custom.style.display = showCustom ? 'inline-block' : 'none';
-      if (showCustom) custom.focus();
-    }
-  }
-});
-
-// Use the selected amount when donating
-document.addEventListener('click', (e) => {
-  const t = e.target;
-  if (t && t.id === 'tip-pi') {
-    e.preventDefault();
-    const status = document.getElementById('tip-status');
-    try {
-      const amt = getSelectedAmount();
-      if (status) status.textContent = `Preparing to donate ${amt} π…`;
-      tipInPi(amt);
-    } catch (err) {
-      if (status) status.textContent = err.message;
-    }
-  }
-});
-
-async function tipInPi(amount = 0.1) {
-  console.warn("Pi donations are not yet enabled.");
-  const status = document.getElementById('tip-status');
-  if (status) status.textContent = 'Pi donations are not yet supported.';
-  return;
-}
-
 
 function renderAnswerReview() {
   if (!reviewContentEl) return;
