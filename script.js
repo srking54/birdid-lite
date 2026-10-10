@@ -16,11 +16,21 @@ const answerReviewEl  = document.getElementById("answer-review");
 const reviewContentEl = document.getElementById("review-content");
 const feedbackEl   = document.getElementById("feedback");
 
+function withBrowserTimeout(operation) {
+  let timeout;
+  return Promise.race([
+    Promise.resolve().then(operation),
+    new Promise((_, reject) => {
+      timeout = setTimeout(() => reject(new Error("Browser request timed out")), 4000);
+    })
+  ]).finally(() => clearTimeout(timeout));
+}
+
 const piReady = (async () => {
   try {
     if (!quizSection) return false; // Homepage manages its own Pi login initialization.
     if (!window.Pi || typeof window.Pi.init !== "function") return false;
-    await window.Pi.init({ version: "2.0" });
+    await withBrowserTimeout(() => window.Pi.init({ version: "2.0" }));
     return true;
   } catch (error) {
     console.warn("Pi SDK unavailable:", error);
@@ -28,17 +38,37 @@ const piReady = (async () => {
   }
 })();
 
-async function openExternalUrl(url) {
+function showExternalFallback(url, sourceLink) {
+  if (!sourceLink || !sourceLink.parentNode) return;
+  let notice = sourceLink.parentNode.querySelector(".external-link-fallback");
+  if (!notice) {
+    notice = document.createElement("p");
+    notice.className = "external-link-fallback";
+    notice.setAttribute("role", "status");
+    sourceLink.parentNode.appendChild(notice);
+  }
+  notice.textContent = "If the browser did not open, tap here: ";
+  const retry = document.createElement("a");
+  retry.href = url;
+  retry.target = "_blank";
+  retry.rel = "noopener noreferrer";
+  retry.textContent = "Open More Information";
+  // A direct user click avoids popup blocking after an asynchronous SDK failure.
+  notice.appendChild(retry);
+}
+
+async function openExternalUrl(url, sourceLink) {
   if (!url) return;
 
   if (window.Pi && typeof window.Pi.openUrlInSystemBrowser === "function") {
     try {
       if (!await piReady) throw new Error("Pi SDK initialization failed");
-      await window.Pi.openUrlInSystemBrowser(url);
+      await withBrowserTimeout(() => window.Pi.openUrlInSystemBrowser(url));
       return;
     } catch (error) {
       console.warn("Could not open system browser:", error);
       window.open(url, "_blank", "noopener,noreferrer");
+      showExternalFallback(url, sourceLink);
     }
   } else {
     window.open(url, "_blank", "noopener,noreferrer");
@@ -61,7 +91,6 @@ document.addEventListener("click", (event) => {
   const link = event.target.closest && event.target.closest("a[data-birdid-external]");
   if (!link || event.defaultPrevented || event.button !== 0 ||
       event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-  event.preventDefault();
   if (reviewContentEl && reviewContentEl.contains(link)) {
     saveCompletedQuizState("review");
     try {
@@ -70,7 +99,10 @@ document.addEventListener("click", (event) => {
       }));
     } catch (_) {}
   }
-  openExternalUrl(link.href);
+  // Keep native anchor behavior when the SDK is absent.
+  if (!window.Pi || typeof window.Pi.openUrlInSystemBrowser !== "function") return;
+  event.preventDefault();
+  openExternalUrl(link.href, link);
 });
 
 // Optional timer/progress (will safely no-op if absent)
