@@ -88,6 +88,20 @@ function hasPendingReviewReturn() {
 }
 
 document.addEventListener("click", (event) => {
+  const link = event.target.closest && event.target.closest("a[href]");
+  if (!link) return;
+  const destination = new URL(link.href, window.location.href);
+  if (destination.origin !== window.location.origin) return;
+  if (!quizSection && /^\/quiz(?:\.html)?\/?$/.test(destination.pathname)) {
+    destination.searchParams.set("start", "1");
+    link.href = destination.href;
+  }
+  if (quizSection && /^\/(?:index(?:\.html)?)?$/.test(destination.pathname)) {
+    try { sessionStorage.removeItem(getReviewReturnKey()); } catch (_) {}
+  }
+});
+
+document.addEventListener("click", (event) => {
   const link = event.target.closest && event.target.closest("a[data-birdid-external]");
   if (!link || event.defaultPrevented || event.button !== 0 ||
       event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
@@ -164,6 +178,8 @@ function restoreCompletedQuizState(forceReview = false) {
       renderAnswerReview();
       document.body.classList.add("results-mode");
     }
+
+    try { sessionStorage.removeItem(getReviewReturnKey()); } catch (_) {}
 
     return true;
   } catch (e) {
@@ -582,6 +598,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Mode override via URL ?mode=timed|leisure
     const mode = new URLSearchParams(window.location.search).get("mode");
+    const startFresh = new URLSearchParams(window.location.search).get("start") === "1";
+    if (startFresh) {
+      // Consume the start request so a later external-browser return can restore.
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.delete("start");
+      window.history.replaceState(window.history.state, "", currentUrl.href);
+    }
     if (mode === "timed")   isTimedMode = true;
     if (mode === "leisure") isTimedMode = false;
 
@@ -617,7 +640,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const navEntry = performance.getEntriesByType("navigation")[0];
     const isHistoryReturn = navEntry && navEntry.type === "back_forward";
 
-    if ((isHistoryReturn || hasPendingReviewReturn()) && restoreCompletedQuizState()) {
+    if (!startFresh && (isHistoryReturn || hasPendingReviewReturn()) && restoreCompletedQuizState()) {
     return;
     }
 
