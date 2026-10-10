@@ -16,6 +16,63 @@ const answerReviewEl  = document.getElementById("answer-review");
 const reviewContentEl = document.getElementById("review-content");
 const feedbackEl   = document.getElementById("feedback");
 
+const piReady = (async () => {
+  try {
+    if (!quizSection) return false; // Homepage manages its own Pi login initialization.
+    if (!window.Pi || typeof window.Pi.init !== "function") return false;
+    await window.Pi.init({ version: "2.0" });
+    return true;
+  } catch (error) {
+    console.warn("Pi SDK unavailable:", error);
+    return false;
+  }
+})();
+
+async function openExternalUrl(url) {
+  if (!url) return;
+
+  if (window.Pi && typeof window.Pi.openUrlInSystemBrowser === "function") {
+    try {
+      if (!await piReady) throw new Error("Pi SDK initialization failed");
+      await window.Pi.openUrlInSystemBrowser(url);
+      return;
+    } catch (error) {
+      console.warn("Could not open system browser:", error);
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  } else {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+}
+
+function getReviewReturnKey() {
+  return getCompletedQuizStateKey() + ":externalReturn";
+}
+
+function hasPendingReviewReturn() {
+  try {
+    const marker = JSON.parse(sessionStorage.getItem(getReviewReturnKey()));
+    return marker && marker.page === window.location.href &&
+      Date.now() - marker.savedAt >= 0 && Date.now() - marker.savedAt < 30 * 60 * 1000;
+  } catch (_) { return false; }
+}
+
+document.addEventListener("click", (event) => {
+  const link = event.target.closest && event.target.closest("a[data-birdid-external]");
+  if (!link || event.defaultPrevented || event.button !== 0 ||
+      event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  if (reviewContentEl && reviewContentEl.contains(link)) {
+    saveCompletedQuizState("review");
+    try {
+      sessionStorage.setItem(getReviewReturnKey(), JSON.stringify({
+        page: window.location.href, savedAt: Date.now()
+      }));
+    } catch (_) {}
+  }
+  openExternalUrl(link.href);
+});
+
 // Optional timer/progress (will safely no-op if absent)
 const quizHeader   = document.getElementById("quiz-header");
 const timerText    = document.getElementById("timer-text");
@@ -51,7 +108,16 @@ function restoreCompletedQuizState(forceReview = false) {
     if (!raw) return false;
 
     const state = JSON.parse(raw);
-    if (!state || !Array.isArray(state.userAnswers)) return false;
+    if (!state || !Array.isArray(state.userAnswers) ||
+        !["results", "review"].includes(state.view) ||
+        state.userAnswers.length !== questions.length ||
+        !state.userAnswers.every((entry, index) => entry &&
+          entry.question === questions[index].question &&
+          entry.correct === questions[index].answer &&
+          entry.image === (resolveImageUrl(questions[index].image) || "") &&
+          (entry.selected === "" || questions[index].choices.includes(entry.selected)) &&
+          entry.isCorrect === (entry.selected === entry.correct)) ||
+        state.score !== state.userAnswers.filter(entry => entry.isCorrect).length) return false;
 
     userAnswers = state.userAnswers;
     score = typeof state.score === "number" ? state.score : 0;
@@ -77,6 +143,8 @@ function restoreCompletedQuizState(forceReview = false) {
 function restartQuiz() {
   try {
     localStorage.removeItem(getCompletedQuizStateKey());
+    localStorage.removeItem("birdid.returnToReview");
+    sessionStorage.removeItem(getReviewReturnKey());
   } catch (e) {}
 
   window.location.href = "quiz.html?v=" + Date.now();
@@ -259,7 +327,7 @@ function handleAnswer(selected, q) {
     ? `<p>✅ Correct!</p>`
     : `<p>❌ Incorrect. The correct answer was <strong>${q.answer}</strong>.</p>`;
 
-  if (infoUrl)   feedback += `<p><a href="${infoUrl}" target="_blank" rel="noopener noreferrer">🔗 More Information</a></p>`;
+  if (infoUrl)   feedback += `<p><a href="${infoUrl}" data-birdid-external target="_blank" rel="noopener noreferrer">🔗 More Information</a></p>`;
   if (infoText)  feedback += `<p>${infoText}</p>`;
 
   if (feedbackEl) {
@@ -280,8 +348,7 @@ function handleAnswer(selected, q) {
     infoText,
     infoUrl
   };
-  const idx = userAnswers.findIndex(x => x.question === q.question);
-  if (idx >= 0) userAnswers[idx] = entry; else userAnswers.push(entry);
+  userAnswers[currentQuestionIndex] = entry;
 
   // Reveal Next button
   if (nextButton) nextButton.style.display = "block";
@@ -322,6 +389,8 @@ function showResults(saveState = true) {
   }
 
   // --- Donate block (add once) ---
+  const donate = document.getElementById("donate-controls") || document.createElement("div");
+  donate.id = "donate-controls";
   donate.innerHTML = `
   <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap">
     <label for="pi-amount" class="muted">Amount:</label>
@@ -399,21 +468,6 @@ async function tipInPi(amount = 0.1) {
 }
 
 
-  // No Pi SDK (normal browsers): explain what to do
-  if (status) {
-    status.innerHTML = `Open this site in the <strong>Pi Browser</strong> to donate Pi, or view our <a href="/ledger.html">Public Donations Ledger</a>.`;
-  }
-
-// Delegate click so it works even if the button is injected later
-document.addEventListener('click', (e) => {
-  const t = e.target;
-  if (t && t.id === 'tip-pi') {
-    e.preventDefault();
-    tipInPi(0.1);
-  }
-});
-
-
 function renderAnswerReview() {
   if (!reviewContentEl) return;
   reviewContentEl.innerHTML = "";
@@ -421,7 +475,7 @@ function renderAnswerReview() {
   userAnswers.forEach((e, i) => {
     const hasLink = !!(e.infoUrl || e.infoText);
     const infoHtml = e.infoUrl
-      ? `<a href="${e.infoUrl}" target="_blank" rel="noopener" onclick="localStorage.setItem('birdid.returnToReview','1')">🔗 More Information</a>`
+      ? `<a href="${e.infoUrl}" data-birdid-external target="_blank" rel="noopener noreferrer">🔗 More Information</a>`
       : (e.infoText ? `<em>${e.infoText}</em>` : "");
 
     const imgHtml = e.image
@@ -482,14 +536,6 @@ function updateProgressBar() {
 document.addEventListener("DOMContentLoaded", async () => {
   try {
 
-    const returnToReview = localStorage.getItem("birdid.returnToReview") === "1";
-
-if (!document.getElementById("quiz-section") &&
-    !document.getElementById("quiz-wrapper") &&
-    returnToReview) {
-  window.location.href = "/quiz.html";
-  return;
-}
     // Only initialize on pages that actually have the quiz UI
     const hasQuizImg = birdImage;
     const hasQuizUI =
@@ -536,20 +582,18 @@ if (!document.getElementById("quiz-section") &&
     // Show quiz area if it’s hidden by default
     if (quizSection) quizSection.style.display = "block";
 
-    if (returnToReview) {
-      localStorage.removeItem("birdid.returnToReview");
-      if (restoreCompletedQuizState(true)) {
-        return;
-      }
-    }
-
     const navEntry = performance.getEntriesByType("navigation")[0];
     const isHistoryReturn = navEntry && navEntry.type === "back_forward";
 
-    if (isHistoryReturn && restoreCompletedQuizState()) {
+    if ((isHistoryReturn || hasPendingReviewReturn()) && restoreCompletedQuizState()) {
     return;
     }
 
+    try {
+      sessionStorage.removeItem(getReviewReturnKey());
+      localStorage.removeItem(getCompletedQuizStateKey());
+      localStorage.removeItem("birdid.returnToReview");
+    } catch (_) {}
     currentQuestionIndex = 0;
     score = 0;
     userAnswers = [];
@@ -561,21 +605,9 @@ if (!document.getElementById("quiz-section") &&
   }
  });
 
- window.addEventListener("pageshow", () => {
-  const hasQuizUI =
-    document.getElementById("quiz-section") ||
-    document.getElementById("quiz-wrapper");
-
-  const returnToReview =
-    localStorage.getItem("birdid.returnToReview") === "1";
-
-  if (!returnToReview) return;
-
-  if (!hasQuizUI) {
-    window.location.href = "/quiz.html";
-    return;
+// A cached page already retains its quiz state; restore only after data is ready.
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted && questions.length && hasPendingReviewReturn()) {
+    restoreCompletedQuizState(true);
   }
-
-  localStorage.removeItem("birdid.returnToReview");
-  restoreCompletedQuizState(true);
 });
