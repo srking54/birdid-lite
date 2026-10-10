@@ -67,7 +67,6 @@ async function openExternalUrl(url, sourceLink) {
       return;
     } catch (error) {
       console.warn("Could not open system browser:", error);
-      window.open(url, "_blank", "noopener,noreferrer");
       showExternalFallback(url, sourceLink);
     }
   } else {
