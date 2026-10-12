@@ -87,6 +87,12 @@
 
 </header>
 
+<section class="card" aria-label="Optional Pi sign-in">
+  <button id="pi-signin-top" class="btn" type="button">Sign in with Pi</button>
+  <p>Pi sign-in is optional. You can take the free quiz without signing in.</p>
+  <p id="pi-signin-status-top" role="status" aria-live="polite">Pi Browser users can sign in before taking the quiz.</p>
+</section>
+
   <!-- Welcome -->
   
 <section class="quiz-info">
@@ -138,7 +144,8 @@ My commitment is that once verified nonprofit bird conservation organizations be
 
   <div id="pi-signin-area">
     <button id="pi-signin" class="btn" type="button">Sign in with Pi</button>
-    <p id="pi-signin-status">Pi Browser users can sign in before taking the quiz.</p>
+    <p>Pi sign-in is optional. You can take the free quiz without signing in.</p>
+    <p id="pi-signin-status" role="status" aria-live="polite">Pi Browser users can sign in before taking the quiz.</p>
   </div>
 
   <ul class="quiz-links">
@@ -263,60 +270,55 @@ My commitment is that once verified nonprofit bird conservation organizations be
 <script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <script>
 (function () {
-  const isPi = typeof window !== 'undefined' && (/PiBrowser/i.test(navigator.userAgent) || !!window.Pi);
-  const piSigninBtn = document.getElementById('pi-signin');
-  const piSigninStatus = document.getElementById('pi-signin-status');
-  if (!piSigninBtn || !piSigninStatus) return;
-  if (!isPi) {
-    piSigninBtn.style.display = 'none';
-    piSigninStatus.textContent =
-      'Open BirdID in Pi Browser to sign in with Pi.';
+  const buttons = ['pi-signin-top', 'pi-signin'].map(id => document.getElementById(id)).filter(Boolean);
+  const statuses = ['pi-signin-status-top', 'pi-signin-status'].map(id => document.getElementById(id)).filter(Boolean);
+  const setStatus = text => statuses.forEach(element => element.textContent = text);
+  const setDisabled = value => buttons.forEach(button => button.disabled = value);
+  if (!buttons.length) return;
+  if (!window.Pi) {
+    buttons.forEach(button => button.style.display = 'none');
+    setStatus('Open BirdID in Pi Browser to sign in with Pi.');
     return;
   }
-
-  try {
-    window.Pi.init({ version: "2.0" });
-  } catch (error) {
-    piSigninStatus.textContent = 'Pi SDK could not be initialized.';
-    return;
-  }
-
-  piSigninBtn.onclick = async () => {
-    piSigninBtn.disabled = true;
-    piSigninStatus.textContent = 'Signing in with Pi...';
-
+  const ready = Promise.resolve().then(() => window.Pi.init({ version: '2.0' }))
+    .then(() => true).catch(error => {
+      console.error('Pi initialization failed:', error);
+      setStatus('Pi SDK could not be initialized. You can still take the free quiz.');
+      setDisabled(true);
+      return false;
+    });
+  let signingIn = false;
+  let signedIn = false;
+  async function signIn() {
+    if (signingIn || signedIn) return;
+    signingIn = true;
+    setDisabled(true);
+    setStatus('Signing in with Pi...');
     try {
-      const auth = await window.Pi.authenticate(
-        ['username'],
-        function (payment) {
-          console.warn('Incomplete Pi payment found:', payment);
-        }
-      );
-
+      if (!await ready) return;
+      const auth = await window.Pi.authenticate(['username'], function (payment) {
+        console.warn('Incomplete Pi payment found:', payment);
+      });
       const response = await fetch('/api/pi/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accessToken: auth.accessToken })
       });
-
-      if (!response.ok) {
-        throw new Error('Pi verification failed');
-      }
-
+      if (!response.ok) throw new Error('Pi verification failed');
       const verifiedUser = await response.json();
-      const username =
-        verifiedUser.username || verifiedUser.user?.username || 'Pioneer';
-
-      piSigninStatus.textContent =
-        'Signed in with Pi as ' + username + '.';
-      piSigninBtn.textContent = 'Signed in with Pi';
+      const username = verifiedUser.username || verifiedUser.user?.username || 'Pioneer';
+      signedIn = true;
+      setStatus('Signed in with Pi as ' + username + '.');
+      buttons.forEach(button => button.textContent = 'Signed in with Pi');
     } catch (error) {
       console.error('Pi sign-in failed:', error);
-      piSigninStatus.textContent =
-        'Pi sign-in was not completed. Please try again.';
-      piSigninBtn.disabled = false;
+      setStatus('Pi sign-in was not completed. Please try again. You can still take the free quiz.');
+      setDisabled(false);
+    } finally {
+      signingIn = false;
     }
-  };
+  }
+  buttons.forEach(button => button.onclick = signIn);
 })();
 </script>
 
